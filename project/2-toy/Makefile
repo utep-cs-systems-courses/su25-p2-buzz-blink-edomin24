@@ -1,0 +1,20 @@
+COMMON_OBJECTS  =
+CPU             = msp430g2553
+CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
+
+CC              = msp430-elf-gcc
+AS              = msp430-elf-as
+
+all: test.elf
+
+test.elf: main.c switch.c
+	${CC} ${CFLAGS} -o $@ $^
+
+load: test.elf
+	msp430loader.sh $^
+
+clean:
+	rm -f *.o *.elf
+
+main.c: switch.h
+switch.c: switch.h

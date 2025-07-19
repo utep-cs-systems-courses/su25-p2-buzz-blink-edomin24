@@ -20,7 +20,7 @@ int secondCount = 0;
 void
 __interrupt_vec(WDT_VECTOR) WDT()	/* 250 interrupts/sec */
 {
-  secondCount += 10;
+  secondCount += 1;
   if (secondCount <= 124) { 	/* once each sec... */
     P1OUT |= LED_GREEN;		/* toggle green LED */
     P1OUT &= ~LED_RED;
