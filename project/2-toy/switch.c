@@ -27,22 +27,6 @@ switch_init()
 
 void switch_interrupt_handler()
 {
-  char p2val = switch_update_interrupt_sense();    /* current state of P2IN */
-
-  switch1_state = (p2val & S1) ? 0 : 1;
-  switch2_state = (p2val & S2) ? 0 : 1;
-  switch3_state = (p2val & S3) ? 0 : 1;
-  switch4_state = (p2val & S4) ? 0 : 1;
-
-  if(switch1_state)
-    switch_state = 1;
-  else if(switch2_state)
-    switch_state = 2;
-  else if(switch3_state)
-    switch_state = 3;
-  else if(switch4_state)
-    switch_state = 4;
-  
-  switch_state_changed = 1; 
+  P1OUT ^= LED_RED;
 
 }
