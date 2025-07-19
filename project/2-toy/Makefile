@@ -7,14 +7,16 @@ AS              = msp430-elf-as
 
 all: test.elf
 
-test.elf: main.c switch.c
+test.elf: main.c led.c switch.c p2_interrupt_handler.c ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: test.elf
 	msp430loader.sh $^
 
 clean:
-	rm -f *.o *.elf
+	rm -f *.o *.elf 
 
 main.c: switch.h
 switch.c: switch.h
+p2_interrupt_handler.c: switch.h
+led.c: led.h
