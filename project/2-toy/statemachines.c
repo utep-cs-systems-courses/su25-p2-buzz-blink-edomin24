@@ -12,37 +12,22 @@ void police_siren_led(){
 }
 
 void play_song() {
-  switch(song_state){
-  case IDLE:
-    buzzer_set_period(0);
+  char last_s2_state = 0;
+  if(s2_state && !last_s2_state){
     reset_mary_had_a_little_lamb();
-    
-    if(s2_state == 1){
-      song_state = PLAYING;
-    }
-    
-    break;
-    
-  case PLAYING:
-    mary_had_a_little_lamb();
-    if(s2_state == 0){
-      song_state = IDLE;
-    }
-    else if (song_finished){
-      song_state = SWITCH_RELEASE;
-    }
-
-    break;
-
-  case SWITCH_RELEASE:
-    buzzer_set_period(0);
-    if(s2_state == 0){
-      song_state = IDLE;
-    }
-    break;
+    song_state = PLAYING;
   }
-}
   
+  if(!s2_state && last_s2_state){
+    buzzer_set_period(0);
+    song_state = IDLE;
+  }
+
+  if (song_state == PLAYING && s2_state){
+    mary_had_a_little_lamb();
+  }
+  last_s2_state = s2_state;
+}
 
 void clear(){
   P1OUT &= ~LEDS;
@@ -58,7 +43,7 @@ void state_advance(){
   case 1:
     play_song(); 
     break;
-
+    
   default: clear(); break;
     
   }

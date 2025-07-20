@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "buzzer.h"
+#include "led.h"
 #include "statemachines.h"
 
 void buzzer_init()
@@ -40,14 +41,12 @@ void police_siren(){
     counter = 0;
   }
 }
-
-static int note_index = 0;
+int note_index = 0;
+int note_duration = 0;
 char song_finished = 0;
 
 void mary_had_a_little_lamb() {
 
- static int note_duration = 0;
- 
  static int melody[] = {
     E4, D4, C4, D4, E4, E4, E4,
     D4, D4, D4,
@@ -59,6 +58,10 @@ void mary_had_a_little_lamb() {
 
   static int num_notes = sizeof(melody) / sizeof(melody[0]);
 
+  if (note_index == 1){
+    P1OUT |= LEDS;
+  }
+  
   if (note_duration == 0) {
     if (note_index < num_notes) {
       buzzer_set_period(melody[note_index]);
@@ -75,6 +78,7 @@ void mary_had_a_little_lamb() {
 
 void reset_mary_had_a_little_lamb(){
   note_index = 0;
+  note_duration = 0;
   song_finished = 0;
   buzzer_set_period(0);
 }
