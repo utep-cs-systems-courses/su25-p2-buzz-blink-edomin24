@@ -25,8 +25,8 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 }
 
 void police_siren(){
-  int counter = 0;
-  int pitch = 4000;
+  static int counter = 0;
+  static int pitch = 4000;
 
   counter += 75;
 
