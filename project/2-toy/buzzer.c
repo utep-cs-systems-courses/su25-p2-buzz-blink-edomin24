@@ -39,3 +39,38 @@ void police_siren(){
     counter = 0;
   }
 }
+
+static int note_index = 0;
+static int note_duration = 0;
+char song_finished = 0;
+
+void mary_had_a_little_lamb() {  
+  int melody[] = {
+    E4, D4, C4, D4, E4, E4, E4,
+    D4, D4, D4,
+    E4, G4, G4,
+    E4, D4, C4, D4, E4, E4, E4,
+    E4, D4, D4,
+    E4, D4, C4
+  };
+  
+  int num_notes = sizeof(melody) / sizeof(melody[0]);
+  if (note_duration == 0) {
+    if (note_index < num_notes) {
+      buzzer_set_period(melody[note_index]);
+      note_duration = 80;
+      note_index++;
+    } else {
+      buzzer_set_period(0);  // End of song
+      song_finished = 1;
+    }
+  } else {
+    note_duration--;
+  }
+}
+
+void reset_mary_had_a_little_lamb(){
+  note_index = 0;
+  note_duration = 0;
+  song_finished = 0;
+}

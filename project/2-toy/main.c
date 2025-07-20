@@ -15,8 +15,5 @@ int main(void) {
 }
 
 void __interrupt_vec(WDT_VECTOR) WDT(){
-  switch (current_state){
-  case 0: police_siren_led(); break;
-  default: clear(); break;
-  }
+  state_advance(); //initalize state machine
 }
