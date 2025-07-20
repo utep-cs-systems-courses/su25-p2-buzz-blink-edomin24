@@ -2,9 +2,9 @@
 #include "switch.h"
 #include "led.h"
 
-char switch1_state, switch2_state, switch3_state, switch4_state;
+char s1_state, s2_state, s3_state, s4_state;
 char switch_state_changed = 0;
-char switch_state = 0;
+char current_state = -1;
 
 static char
 switch_update_interrupt_sense(){
@@ -17,7 +17,6 @@ switch_update_interrupt_sense(){
 void
 switch_init()
 {
-  // Setup P1 buttons
   P2REN |= SWITCHES;
   P2IE  |= SWITCHES;
   P2OUT |= SWITCHES;
@@ -27,6 +26,24 @@ switch_init()
 
 void switch_interrupt_handler()
 {
-  P1OUT ^= LED_RED;
+  char p2val = switch_update_interrupt_sense();
 
+  s1_state = (p2val & S1) ? 0 : 1;
+  s2_state = (p2val & S2) ? 0 : 1;
+  s3_state = (p2val & S3) ? 0 : 1;
+  s4_state = (p2val & S4) ? 0 : 1;
+
+  if(s1_state)
+    current_state = 0;
+  else if (s2_state)
+    current_state = 1;
+  else if (s3_state)
+    current_state = 2;
+  else if (s4_state)
+    current_state = 3;
+  else
+    current_state = -1;  /* no switch activated */
+
+  switch_state_changed = 1;
+    
 }

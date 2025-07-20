@@ -5,5 +5,6 @@
 #define LED_GREEN BIT6   //P1.6
 #define LEDS (BIT0 | BIT6)
 
+void police_led();
 
 #endif //included
