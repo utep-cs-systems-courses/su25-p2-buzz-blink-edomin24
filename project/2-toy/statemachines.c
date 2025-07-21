@@ -23,6 +23,20 @@ void play_song() {
 
   }
 }
+
+static char s3_phase = 0;
+void red_green() {
+  if (s3_state){
+    switch(s3_phase){
+    case 0: red_green(0); s3_phase = 1; break;
+    case 1: red_green(1); s3_phase = 2; break;
+    case 2: red_green(2); s3_phase = 0; break;
+    }
+  }
+
+  s3_state = 0;
+}
+
 void clear(){
   P1OUT &= ~LEDS;
   buzzer_set_period(0);
@@ -30,15 +44,9 @@ void clear(){
 
 void state_advance(){
   switch (current_state){
-  case 0:
-    police_siren_led();
-    break;
-    
-  case 1:
-    play_song();
-    break;
-    
-             
+  case 0: police_siren_led(); break;
+  case 1: play_song(); break;
+  case 2: red_green(); break;
   default: clear(); break;
     
   }

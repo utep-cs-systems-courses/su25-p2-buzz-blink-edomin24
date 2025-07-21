@@ -6,7 +6,9 @@ extern enum SongState song_state;
 
 void police_siren_led();
 void play_song();
+void red_green();
 void clear();
 void state_advance();
+
 
 #endif //included
