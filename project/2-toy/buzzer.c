@@ -47,7 +47,7 @@ char song_finished = 0;
 
 void mary_had_a_little_lamb() {
 
- static int melody[] = {
+  static int melody[] = {
     E4, D4, C4, D4, E4, E4, E4,
     D4, D4, D4,
     E4, G4, G4,
@@ -57,18 +57,17 @@ void mary_had_a_little_lamb() {
   };
 
   static int num_notes = sizeof(melody) / sizeof(melody[0]);
-
-  if (note_index == 1){
-    P1OUT |= LEDS;
+  if (song_finished) {
+    return;
   }
-  
+
   if (note_duration == 0) {
     if (note_index < num_notes) {
       buzzer_set_period(melody[note_index]);
       note_duration = 80;
       note_index++;
     } else {
-      buzzer_set_period(0);  // Stop the buzzer
+     
       song_finished = 1;
     }
   } else {
