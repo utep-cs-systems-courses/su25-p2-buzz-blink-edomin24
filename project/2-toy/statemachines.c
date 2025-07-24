@@ -4,14 +4,12 @@
 #include "led.h"
 #include "switch.h"
 
-enum SongState song_state = IDLE;
-
-void police_siren_led(){
+void s1_handler(){
   police_led();
   police_siren();
 }
 
-void play_song() {
+void s2_handler() {
 
   /* checks if s2 is pressed */
   if(s2_state != 0){
@@ -25,7 +23,7 @@ void play_song() {
 }
 
 static char s3_phase = 0;
-void red_green() {
+void s3_handler() {
   if (s3_state){
     switch(s3_phase){
     case 0: red_green(0); s3_phase = 1; break;
@@ -37,6 +35,10 @@ void red_green() {
   s3_state = 0;
 }
 
+void s4_handler(){
+  red_green_dim_to_bright();
+}
+
 void clear(){
   P1OUT &= ~LEDS;
   buzzer_set_period(0);
@@ -44,9 +46,10 @@ void clear(){
 
 void state_advance(){
   switch (current_state){
-  case 0: police_siren_led(); break;
-  case 1: play_song(); break;
-  case 2: red_green(); break;
+  case 0: s1_handler(); break;
+  case 1: s2_handler(); break;
+  case 2: s3_handler(); break;
+  case 3: s4_handler(); break;
   default: clear(); break;
     
   }

@@ -67,7 +67,7 @@ void mary_had_a_little_lamb() {
       note_duration = 80;
       note_index++;
     } else {
-     
+    
       song_finished = 1;
     }
   } else {

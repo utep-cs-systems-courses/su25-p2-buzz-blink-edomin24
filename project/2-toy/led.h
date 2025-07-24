@@ -7,5 +7,6 @@
 
 void led_init();
 void police_led();
+void red_green_dim_to_bright();
 
 #endif //included
